@@ -1,0 +1,2 @@
+# 16. Solr Glossary
+
