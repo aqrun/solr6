@@ -166,7 +166,7 @@
     * [10.3. SolrCloud Configuration and Parameters](10-solr-cloud/10-3-solrcloud-configuration-and-parameters/README.md)
         * [10.3.1. Setting Up an External ZooKeeper Ensemble](10-solr-cloud/10-3-solrcloud-configuration-and-parameters/10-3-1-setting-up-an-external-zookeeper-ensemble.md)
         * [10.3.2. Using ZooKeeper to Manage Configuration Files](10-solr-cloud/10-3-solrcloud-configuration-and-parameters/10-3-2-useing-zookeeper-to-manage-configuration-files.md)
-        * [10.3.3. Zookeeper Access Control](10-solr-cloud/10-3-solrcloud-configuration-and-parameters/10-3-3-zookeeper-access-control.dm)
+        * [10.3.3. Zookeeper Access Control](10-solr-cloud/10-3-solrcloud-configuration-and-parameters/10-3-3-zookeeper-access-control.md)
         * [10.3.4. Collections API](10-solr-cloud/10-3-solrcloud-configuration-and-parameters/10-3-4-collections-api.md)
         * [10.3.5. Parameter Reference](10-solr-cloud/10-3-solrcloud-configuration-and-parameters/10-3-5-parameter-reference.md)
         * [10.3.6. Command Line Utilities](10-solr-cloud/10-3-solrcloud-configuration-and-parameters/10-3-6-command-line-utilities.md)
