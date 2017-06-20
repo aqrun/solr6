@@ -1,42 +1,47 @@
 Solr 6
 ======
 
-A book-in-progress about Solr 6.6.0 translation.
+![Solr logo](http://lucene.apache.org/solr/6_6_0/images/solr.svg)
 
-**The goal is simple** - to share my modest knowledge about the insides of the linux kernel and help people who are interested in linux kernel insides, and other low-level subject matter.
+Translation about Solr 6.6.0 translation.
 
-**Questions/Suggestions**: Feel free about any questions or suggestions by pinging me at twitter [@0xAX](https://twitter.com/0xAX), adding an [issue](https://github.com/0xAX/linux-insides/issues/new) or just drop me an [email](mailto:anotherworldofworld@gmail.com).
+**The goal is simple** - Just translate and to use Solr in website.
 
-Support
--------
+**Questions/Suggestions**: Feel free about any questions or suggestions by adding an [issue](https://github.com/aqrun/solr6/issues/new) or just drop me an [email](mailto:aqruna@gmail.com).
 
-**Support** If you like `linux-insides` you can support me with: 
 
-[![Flattr linux-insides](https://img.shields.io/badge/donate-flattr-green.svg)](https://flattr.com/submit/auto?user_id=0xAX&url=https://github.com/0xAX/linux-insides/&title=linux-insed) [![Support at gratipay](https://img.shields.io/gratipay/0xAX.svg)](https://gratipay.com/~0xAX/) [![Support with bitcoin](https://img.shields.io/badge/donate-bitcoin-green.svg)](https://www.coinbase.com/checkouts/0bfa452a41cf52c0b3f99500b4f31685) [![Support via gitbook](https://img.shields.io/badge/donate-gitbook-green.svg)](https://gumroad.com/l/gitbook_54c9232c1db1670300055523?wanted=true) [![Join the chat at https://gitter.im/0xAX/linux-insides](https://badges.gitter.im/0xAX/linux-insides.svg)](https://gitter.im/0xAX/linux-insides?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-
-On other languages
+Languages
 -------------------
 
-  * [Chinese](https://github.com/MintCN/linux-insides-zh)
-  * [Spanish](https://github.com/leolas95/linux-insides)
-  * [Russian](https://github.com/proninyaroslav/linux-insides-ru)
-  * [Turkish](https://github.com/ayyucedemirbas/linux-insides_Turkish)
+  * [Chinese](https://github.com/aqrun/solr6/tree/master/zh)
+  * [Spanish](https://github.com/aqrun/solr6/tree/master/en)
+
   
 LICENSE
 -------------
 
-Licensed [BY-NC-SA Creative Commons](http://creativecommons.org/licenses/by-nc-sa/4.0/).
+Copyright 2017 Aqrun
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    [http://www.apache.org/licenses/LICENSE-2.0](http://www.apache.org/licenses/LICENSE-2.0)
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
 
 Contributions 
 --------------
 
 Feel free to create issues or pull-requests if you have any problems.
 
-**Please read [CONTRIBUTING.md](https://github.com/0xAX/linux-insides/blob/master/CONTRIBUTING.md) before pushing any changes.**
-
-![image](http://oi58.tinypic.com/23upobq.jpg)
+**Please read [CONTRIBUTING.md](https://github.com/aqrun/solr6/blob/master/CONTRIBUTING.md) before pushing any changes.**
 
 Author
 ---------------
 
-[@0xAX](https://twitter.com/0xAX)
+[@Aqrun](https://www.aqrun.com)
