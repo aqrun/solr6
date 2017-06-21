@@ -12,4 +12,4 @@ This section helps you get Solr up and running quickly, and introduces you to th
 [A Step Closer](): An introduction to Solr's home directory and configuration options.
 [Solr Control Script Reference](): a complete reference of all of the commands and options available with the bin/solr script.
 
-<div style="background:rgba(0,255,0,0.2);border:1px solid rgba(0,255,0,0.5);padding:10px;">Solr includes a Quick Start tutorial which will be helpful if you are just starting out with Solr. You can find it online at [http://lucene.apache.org/solr/quickstart.html](http://lucene.apache.org/solr/quickstart.html), or in your Solr installation at $SOLR_INSTALL_DIR/docs/quickstart.html</div>
+> <i class="fa fa-lightbulb-o" style="color:#428b30;"></i> Solr includes a Quick Start tutorial which will be helpful if you are just starting out with Solr. You can find it online at [http://lucene.apache.org/solr/quickstart.html](http://lucene.apache.org/solr/quickstart.html), or in your Solr installation at $SOLR_INSTALL_DIR/docs/quickstart.html
