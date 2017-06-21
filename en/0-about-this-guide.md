@@ -8,37 +8,28 @@ The material as presented assumes that you are familiar with some basic search c
 
 ## Special Inline Notes
 
-Special notes are included throughout these pages.
+Special notes are included throughout these pages. There are several types of notes:
 
+* Information blocks
 
-<table>
-    <thead>
-    <tr>
-        <th style="width:120px;">Note Type</th>
-        <th>Look & Description</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-        <td>Notes</td>
-        <td>
-            <div style="background:rgba(255,255,0,0.2);border:1px solid rgba(255,255,0,0.5);padding:10px;">Yellow notes are further clarifications of important points to keep in main while useing Solr.</div>
-        </td>
-    </tr>
-    <tr>
-        <td>Tip</td>
-        <td>
-            <div style="background:rgba(0,255,0,0.2);border:1px solid rgba(0,255,0,0.5);padding:10px;">Notes with a green background are Helpful Tips.</div>
-        </td>
-    </tr>
-    <tr>
-        <td>Warning</td>
-        <td>
-            <div style="background:rgba(255,0,0,0.2);border:1px solid rgba(255,0,0,0.5);padding:10px;">Notes with a red background are warning messages.</div>
-        </td>
-    </tr>
-    </tbody>
-</table>
+> <i class="fa fa-info-circle" style="color:#19407c;"></i> These provide additional information that's useful for you to know.
+
+* Important
+
+> <i class="fa fa-bolt" style="color:#eeea74;"></i> This provide intormation that is critical for you to know.
+
+* Tip
+
+> <i class="fa fa-lightbulb-o" style="color:#428b30;"></i> These provide helpful tips.
+
+* Caution
+
+> <i class="fa fa-fire" style="color:#bf6900;"></i> These provide details on scenarios or configurations you should be careful with.
+
+* Warning
+
+> <i class="fa fa-exclamation-triangle" style="color:#bf0000;"></i> These are meant to warn you from a possibly dangerous change or action.
+
 
 ## Hosts and Port Examples
 

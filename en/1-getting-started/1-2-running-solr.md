@@ -64,9 +64,7 @@ Solr also provides anumber of useful examples to help you learn about key featur
 
 Currently, the available examples you can run are: techproducts, dih, shemaless, and cloud. See the sectiojn [Running with Example Configurations]() for details on each example.
 
-<div style="background:rgba(255,255,0,0.2);border:1px solid rgba(255,255,0,0.5);padding:10px;">**Getting Started With SolrCloud<br/>
-Running the *cloud* example starts Solr in SolrCloud mode. For more information on starting Solr in cloud mode, see the section [Getting Started with SolrCloud]()
-</div>
+> <i class="fa fa-info-circle" style="color:#19407c;"></i>**Getting Started With SolrCloud<br/> Running the *cloud* example starts Solr in SolrCloud mode. For more information on starting Solr in cloud mode, see the section [Getting Started with SolrCloud]()
 
 #### Check if Solr is Running
 
@@ -80,9 +78,9 @@ That's it! Solr is runnig. If you need convincing, use a Web browser to see the 
 
 *http://localhost:8983/solr/*
 
-![The Solr Admin interface]()
+![Figure 1. The Solr Admin interface](../../assets/SolrAdminDashboard.png)
 
-*The Solr Admin interface*
+*Figure 1. The Solr Admin interface*
 
 If Solr is not running, your browser will complain that it cannot connect to the server. Check your port number and try again.
 
@@ -138,4 +136,85 @@ Time spent: 0:00:00.153
 That's it! Solr has indexed the document contained in those files.
 
 ## Ask Questions
+
+Now that you have indexed documents, you can perform queries. The simplest way is by building a URL that includes the query parameters. This is exactly the same as building any other HTTP URL.
+
+For example, the following query searches all document fields for "video":
+
+    http://localhost:8983/solr/gettingstarted/select?q=video
+
+Notice how the URL includes the host name (localhost), the port number where the server is listening(8983), the application name (solr), the request handler for quiries (select), and finally, the query itself (q=video).
+
+The results are contained in an XML document, which you can examine directly by clicking on the link above. The document contains two parts. The first part is the **responseHeader**, which contains information about the resonse itself. The main part of th reply is in the result tag, which contains one or more doc tags, each of which contains fields from documents that match the query. You can use standard XML transformation techniques the results in JSON, PHP, RUBY and even user-defined formats.
+
+Just in case you are not running Solr as you read, the following screen shot shows the result of a query (the next example, actually) as viewed in Mozilla Firefox. The top-level response contains a **1st** named **responseHeader** and a reslut named response. Inside result, you can see the three docs that represent the search results. 
+
+![Figure2. An XML response to a query](../../assets/solr34_responseHeader.png)
+
+Figure 2. An XML response to a query.
+
+Once you have mastered the basic idea of a query, it is easy to add enhancements to explore the query syntax. This one is the same as before but the results only contain the ID, name, and preice for each returned document. If you don't specify which fields you want, all of the are returned.
+
+    http://localhost:8983/solr/gettingstarted/select?q=view&fl=id,name,price
+
+Here is another example which searches for "black" in the name field only. If you do not tell Solr which field to search, it will search default fields, as specified in the schema.
+
+    http://localhost:8983/solr/gettingstarted/select?q=name:black
+
+You can provide ranges for fields. The following query finds every document whose price is between $0 and $400
+
+    http://localhost:8983/solr/gettingstarted/select?q=price:0%20TO%20400&fl=id,name,price
+
+[Faceted browsing](http://lucene.apache.org/solr/guide/6_6/faceting.html#faceting) is one of Solr's key features. It allows users to narrow search results in ways that are meaningful to your application. For example, a shopping iste could provde facets to narrow search results by manufactureer or price.
+
+Faceting information is returned as a third part of Solr's query response. To get a taste of this power, take a look at the following query, It adds `facet=true` and `facet.field=cat`.
+
+    http://localhost:8983/solr/gettingstarted/select?q=price:0%20TO%20400&fl=id,name,price&facet=true&facet.field=cat
+
+In addition to the familiar `responseHeader` and response from Solr, a `facet_counts` element is also present. Here is a view with the `responseHeader` and response collapsed so you can see the faceting information clearly.
+
+#### An XML Response with faceting
+
+```xml
+<response>
+<lst name="responseHeader">
+...
+</lst>
+<result name="response" numFound="9" start="0">
+  <doc>
+    <str name="id">SOLR1000</str>
+    <str name="name">Solr, the Enterprise Search Server</str>
+    <float name="price">0.0</float></doc>
+...
+</result>
+<lst name="facet_counts">
+  <lst name="facet_queries"/>
+  <lst name="facet_fields">
+    <lst name="cat">
+      <int name="electronics">6</int>
+      <int name="memory">3</int>
+      <int name="search">2</int>
+      <int name="software">2</int>
+      <int name="camera">1</int>
+      <int name="copier">1</int>
+      <int name="multifunction printer">1</int>
+      <int name="music">1</int>
+      <int name="printer">1</int>
+      <int name="scanner">1</int>
+      <int name="connector">0</int>
+      <int name="currency">0</int>
+      <int name="graphics card">0</int>
+      <int name="hard drive">0</int>
+      <int name="monitor">0</int>
+    </lst>
+  </lst>
+  <lst name="facet_dates"/>
+  <lst name="facet_ranges"/>
+</lst>
+</response>
+```
+
+The facet information shows how many of the query results have each possible value of the `cat` field. You could easily use this information to provide users with a quick way to narrow their query results. You can filter results by adding one or more filter queries to the Solr request. This request constrains documents with a category of "software"
+
+    http://localhost:8983/solr/gettingstarted/select?q=price:0%20TO%20400&fl=id,name,price&facet=true&facet.field=cat&fq=cat:software
 
