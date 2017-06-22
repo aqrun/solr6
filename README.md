@@ -5,7 +5,7 @@ Solr 6
 
 Translation about Solr 6.6.0 translation.
 
-**The goal is simple** - Just translate and to use Solr in website.
+**The goal is simple** - Just translate and to use [Solr](http://lucene.apache.org/solr/guide/6_6/) in website.
 
 **Questions/Suggestions**: Feel free about any questions or suggestions by adding an [issue](https://github.com/aqrun/solr6/issues/new) or just drop me an [email](mailto:aqruna@gmail.com).
 
