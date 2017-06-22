@@ -167,6 +167,137 @@ The `healthcheck` command generates a JSON-formatted health report for a collect
 
 ### Available Parameters
 
+|Parameter|description|Example|
+|---|---|---|
+|`-c <collection>`|Name of the collection to run a healthcheck against(required).|bin/solr healthcheck -c gettingstarted|
+|`-z <zkhost>`|ZooKeeper connection string, defaults to localhost:9983. If you are running Solr on a port other than 8933, you will have to specify the ZooKeeper connection string. By default, this will be the Solr port + 1000.|bin/solr healthcheck -z localhost:2181|
+
+Below is an example healthcheck request and response using a non-standard ZooKeeper connect string, with 2 nodes running:
+
+    $ bin/solr healthcheck -c gettingstarted -z localhost:9865
+
+    {
+        "collection":"gettingstarted",
+        "status":"healthy",
+        "numDocs":0,
+        "numShards":2,
+        "shards":[
+        {
+            "shard":"shard1",
+            "status":"healthy",
+            "replicas":[
+                {
+                "name":"core_node1",
+                "url":"http://10.0.1.10:8865/solr/gettingstarted_shard1_replica2/",
+                "numDocs":0,
+                "status":"active",
+                "uptime":"2 days, 1 hours, 18 minutes, 48 seconds",
+                "memory":"25.6 MB (%5.2) of 490.7 MB",
+                "leader":true},
+                {
+                "name":"core_node4",
+                "url":"http://10.0.1.10:7574/solr/gettingstarted_shard1_replica1/",
+                "numDocs":0,
+                "status":"active",
+                "uptime":"2 days, 1 hours, 18 minutes, 42 seconds",
+                "memory":"95.3 MB (%19.4) of 490.7 MB"
+                }
+            ]
+        },
+            {
+            "shard":"shard2",
+            "status":"healthy",
+            "replicas":[
+                {
+                "name":"core_node2",
+                "url":"http://10.0.1.10:8865/solr/gettingstarted_shard2_replica2/",
+                "numDocs":0,
+                "status":"active",
+                "uptime":"2 days, 1 hours, 18 minutes, 48 seconds",
+                "memory":"25.8 MB (%5.3) of 490.7 MB"},
+                {
+                "name":"core_node3",
+                "url":"http://10.0.1.10:7574/solr/gettingstarted_shard2_replica1/",
+                "numDocs":0,
+                "status":"active",
+                "uptime":"2 days, 1 hours, 18 minutes, 42 seconds",
+                "memory":"95.4 MB (%19.4) of 490.7 MB",
+                "leader":true}]}]}
+
+------
+
+## Collections and Cores
+
+The `bin/solr` script can also help you create new collections (in SolrCloud mode) or cores (in standalone mode), or delete collections.
+
+### Create
+
+The `create` command detects the mode that Solr is running in (standalone or SolrCloud) and then creates a core or collection depending on the mode.
+
+    bin/solr create [options]
+    bin/solr create -help
+
+### Available Parameters
+
+|Parameter|Description|Example|
+|---|---|---|
+|`-c <name>`|Name of the core or collection to create (required).|bin/solr create -c mycollection|
+|`-d <confdir>`|The configuration directory. This defaults to `data_driven_schema_configs`. See the section [Configuration Directories and SolrCloud]() below for more details about this option when running in SolrCloud mode.|bin/solr create -d basic_configs|
+|`-n <configName>`|The cofniguration name. This defaults to the same name as the core or collection.|bin/solr create -n basic|
+|`-p <port>`|Port of a local Solr instance ot send the create command to; by default the script tries to detect the port by looking for running Solr instances.<br/>This option is useful if you are running multiple standalone Solr instances on the same host, thus requiring you to be specific about which instance to create the core in.|bin/solr create -p 8983|
+|`-s <shards>`<br/>`-shards`|Number of shards to split a collection into, default is 1; only applies when Solr is running SolrCloud mode.|bin/solr create -s 2|
+|`-rf<replicas>`<br/>`-replicationFactor`|Number of copies of each document in the collection. The default is 1(no replication).|bin/solr create -rf 2|
+|`-force`|If attempting to run create as "root" user, the script will exit with a warning that running Solr or actions against Solr as "root" can cause problems. It is possible to override this warning with the -force parameter.|bin/solr create -c foo -force|
+
+## Configuration Directories and SolrCloud
+
+Before creating a collection in SolrCloud, the configuration directory used by the collection must be uploaded to ZooKeeper. The create command supports serveral use cases for how collections and configuration directories work. The main decision you need to ake is whether a configuration directory in ZooKeeper should be shared across multiple collections.
+
+Let's work through a few examples to illustrate hwo configuration directories work in SolrCloud.
+
+First, if you don't provide the `-d` or `-n` options, then the defualt configuration ($SOLR\_HOME/server/solr/configsets/data\_driven\_schema\_configs/conf) is uploaded to ZooKeeper using the same name as the collection. For example, the following command will result in the data\_driven\_schema\_configs configuration being uploaded to `/config/contacts` in ZooKeeper: `bin/solr create -c contacts`. If you careate another collection, by doing `bin/solr create -c contacts2`, then another copy of the `data_driven_schema_configs` directory will be uploaded to ZooKeeper under `/configs/contacts2`. Any changes you make to the configuration for the contacts collection will not affect the contacts2 collection. Put simply, the default behavior creates a unique copy of the configuration directory for each collection you create.
+
+You can override the name given to the configuration directory in ZooKeeper by using the `-n` option. For instance, the command `bin/solr create -c logs -d basic_configs -n basic` will upload the `server/solr/configsets/basic_configs/conf` directory to ZooKeeper as `/config/basic`.
+
+Notice that we used the `-d` options to specify a different configuration than the default. Solr provides several built-in configurations under `server/solr/configsets`. However you can also provide the path to your own configuration deirctory using the `-d` option. For instance the command `bin/solr create -c mycoll -d /tmp/myconfigs`, will upload `/tmp/myconfigs` into ZooKeeper under `/config/mycoll`. To reiterate, the configuration directory is named after the collection unless you override it using the `-n` option.
+
+Other collections can share the same configuration by specifying the name of the shared configuration using the `-n` option. For instance, the following command will create a new collection that shares the basic configuration created previously: `bin/solr create -c logs2 -n basic`.
+
+## Data-driven Schema and Shared Configurations
+
+The `data_driven_schema_configs` schema can mutate as data is indexed. Consequently, we recommend that you do not share data-driven configurations between collections unless you are certain that all collections should inherit the changes made when indexing data into one of the collections.
+
+## Delete
+
+The `delete` command detects the mode that Solr is running in (standalone or SolrCloud) and then deletes the specified core (standalone) or collection (SolrCloud) as apporpriate.
+
+    bin/solr delete [options]
+    bin/solr delete -help
+
+If running in SolrCloud mode, the delete command checks if the configuration directory used by the collection you are deleting is being used by other collections. If not, then the configuration directory is also deleted from ZooKeeper. For Example, if you created a collection by doing `bin/solr create -c contacts`, then the delete command `bin/solr delete -c contacts` will check to see if the `/config/contacts` configuration directory is being used by any other collections. If not, then the `/configs/contacts` directory is removed from ZooKeeper.
+
+### Available Parameters
+
+|Parameter|Description|Example|
+|---|---|---|
+|`-c <name>`|Name of the core / collection to delete (required).|bin/solr detele -c mycoll|
+|`-deleteConfig <true|false>`|Delete the configuration directory form ZooKeeper. The Default is true.<br/>If the configuration directory is being used by another collection, then it will not be deleted even if you pass `-deleteConfig` as true.|bin/solr delete -deleteConfig false|
+|`-p <port>`|The port of a local Solr instance to send the delete command to. by default the script tries to detect the port by looking for running Solr instances.<br/>This option is useful if you are running multiple standalone Solr instances on the same host, thus requiring you to be specific about which instance to delete the core from.|bin/solr delete -p 8983|
+
+## Authentication
+
+The `bin/solr` script allows enabling or disabling Basic Authentication, allowing you to configure authentication from the command line.
+
+Currently, this script only enables Basic Authentication, and is only available when using SolrCloud mode.
+
+### Enabling Basic Authentication
+
+The command `bin/solr auth enable` configures Solr to use Basic Authentication when accessing the User Interface, using `bin/solr` and any API requests.
+
+> <i class="fa fa-lightbulb-o" style="color:#428b30;"></i> For more information about Solr's authentication plugins, see the section [Securing Solr](). For more information on Basic Authentication support specifically, see the section [Basic Authentication Plugin]().
+
+The `bin/solr auth enable` command makes several changes to enable Basic Authentication:
+
 
 
 
