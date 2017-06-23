@@ -318,4 +318,70 @@ The `bin/solr auth enable` command makes several changes to enable Basic Authent
         }
     }
 
+* Adds two lines to `bin/solr.in.sh` or `bin/solr.in.cmd` to set the authentication type, and the path to `basicAuth.conf`:
+
+    # The following lines added by ./solr for enabling BasicAuth
+    SOLR_AUT_TYPE = "basic"
+    SOLR_AUTHENTICATION_OPTS="_Dsolr.httpclient.config=/path/to/solr-6.6.0/server/solr/basicAuth.conf"
+
+* Creates the file `server/solr/basicAuth.conf` to store the credential information that is used with `bin/solr` commands.
+
+The command takes the following parameters:
+
+`-credentials`
+
+The username and password in the format of `username:password` of the initial user.
+
+If you perfer not to pass the username and password as an argument to the scritp, you can choose the `-prompt` option. Either `-credentials` or -prompt` must be specified.
+
+`-prompt`
+
+If prompt is preferred, pass **true** as a parameter to reuest the script to prompt the user to enter a username and password.
+
+Either `-credentials` or `-prompt` must be specified.
+
+`-blockUnknown`
+
+When true, blocks all unauthenticated users from accessing Solr. This defaults to false, which means unauthenticated users will still be able to access Solr.
+
+`updateIncludeFileOnly`
+
+When true, only the settings in `bin/solr.in.sh` or `bin/solr.in.cmd` will be updated, and `secturity.json` will not be created.
+
+`-z`
+
+Defines the ZooKeeper connect string. This is useful if you want to enable authentication before all your Solr nodes have come up.
+
+`-d`
+
+Defines the Solr server directory, by default `$SOLR_HOME/server`. It is not common to need to override the default, and is only needed if you have customized the $SOLR_HOME directory path.
+
+`-s`
+
+Defines the location of `solr.solr.name`, which by default is `server/solr`. If you have multiple instances of Solr on the same host, or if you have customized the `$SOLR_HOME` directory path, you likely need to define this.
+
+### Disableing Basic Authentication
+
+You can disable Basic Authentication with `bin/solr auth disable`.
+
+If the `-updateIncludeFileOnly` option is set to true, then only the settings in `bin/solr.in.sh` or `bin/solr.in.cmd` will be updated, and `security.json` will not be removed.
+
+If the `-updateIncludeFileOnly` option is set to false, then the settings in `bin/solr.in.sh` or `bin/solr.in.cmd` will be updated, and `security.json` will be removed. however, the `basicAuth.conf` file is not removed with either option.
+
+-----------
+
+## ZooKeeper Operations
+
+The `bin/solr` script allows certain operations affecting ZooKeeper. These operations are for SolrCloud mode only.  The operations are available as sub-commands, which each have their own set of options.
+
+    bin/solr zk [sub-command][options]
+
+> <i class="fa fa-info-circle" style="color:#19407c;"></i> Solr should have heeen started at least once before issuing these commands to initialize ZooKeeper with the znodes solr expects. Once ZooKeeper is initialized, Solr doesn't need to be running on any node to use these commands.
+
+### Upload a configuration Set
+
+Use the `zk upconfig` command to upload one of the pre-configured configuration set or a customized configuration set to ZooKeeper.
+
+
+
 
