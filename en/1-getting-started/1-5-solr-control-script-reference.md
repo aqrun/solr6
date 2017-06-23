@@ -298,6 +298,24 @@ The command `bin/solr auth enable` configures Solr to use Basic Authentication w
 
 The `bin/solr auth enable` command makes several changes to enable Basic Authentication:
 
+* Creates a `security.json` file and uploads it to ZooKeeper. The `security.json` file will look similar to:
 
+    {
+        "authentication":{
+        "blockUnknown": false,
+        "class":"solr.BasicAuthPlugin",
+        "credentials":{
+            "user":"vgGVo69YJeUg/O6AcFiowWsdyOUdqfQvOLsrpIPMCzk= 7iTnaKOWe+Uj5ZfGoKKK2G6hrcF10h6xezMQK+LBvpI="}
+        },
+        "authorization":{
+            "class":"solr.RuleBasedAuthorizationPlugin",
+            "permissions":[
+                {"name":"security-edit", "role":"admin"},
+                {"name":"collection-admin-edit", "role":"admin"},
+                {"name":"core-admin-edit", "role":"admin"}
+            ],
+            "user-role":{"user":"admin"}
+        }
+    }
 
 
